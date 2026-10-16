@@ -28,6 +28,20 @@ flowchart LR
 | 7. Close out | PRB0040001, INC0010001-0003 | Moved the problem to Fix in Progress, Resolved (**Fix Applied**) and Closed, then resolved each incident with **Resolved - Permanent Fix Applied** and a note pointing to the change and problem. |
 | 8. Report | Ops Overview dashboard | Built a Platform Analytics dashboard with an **Incidents by Category** bar chart (Incident table, count grouped by category) to watch for trends and themes. |
 
+## Screenshots
+
+**Ops Overview dashboard: Incidents by Category**
+
+![Ops Overview dashboard](assets/dashboard_incidents_by_category.png)
+
+| Problem PRB0040001 (closed, Fix Applied) | Root cause and workaround (Known Error) |
+|---|---|
+| ![Problem record](assets/problem_record.png) | ![Root cause and workaround](assets/problem_root_cause_workaround.png) |
+
+| Change CHG0030002 (Normal, all stages complete) | Incidents INC0010001-0003 (resolved) |
+|---|---|
+| ![Change request](assets/change_request.png) | ![Incidents](assets/incidents_list.png) |
+
 ## Design notes
 
 - **Incident to problem link.** This release has no Problem reference field on the incident form, so I tied the records together with the problem's Origin task (INC0010001), the problem description, and work notes on each incident that name PRB0040001.
@@ -38,6 +52,7 @@ flowchart LR
 
 - [`data/records.json`](data/records.json): every record exported through the ServiceNow REST Table API (incidents, problem, change, approvals, dashboard definition).
 - [`docs/interview_walkthrough.md`](docs/interview_walkthrough.md): how I explain the case in 60 seconds, plus the questions I prepared for.
+- [`assets/`](assets): screenshots of the dashboard, problem, change and incidents.
 
 ## Skills shown
 
