@@ -1,0 +1,155 @@
+{
+  "source": "ServiceNow Personal Developer Instance (Brazil release), exported through the REST Table API on 2026-10-16",
+  "incidents": [
+    {
+      "number": "INC0010001",
+      "short_description": "Nightly data load failed - duplicate key error",
+      "description": "Mon Oct 12: Nightly load into the reporting warehouse failed at the MERGE step. Error: duplicate key value violates unique constraint on order_id. Reports for today are stale.",
+      "caller_id": "Abel Tuter",
+      "category": "Software",
+      "impact": "2 - Medium",
+      "urgency": "2 - Medium",
+      "priority": "3 - Moderate",
+      "state": "Resolved",
+      "close_code": "Resolved – Permanent Fix Applied",
+      "close_notes": "Root cause fixed by CHG0030002 (dedup step added before the nightly load MERGE). See PRB0040001.",
+      "opened_at": "2026-10-16 09:03:03",
+      "resolved_at": "2026-10-16 09:24:22"
+    },
+    {
+      "number": "INC0010002",
+      "short_description": "Nightly data load failed - duplicate key error",
+      "description": "Tue Oct 13: Nightly load into the reporting warehouse failed at the MERGE step. Error: duplicate key value violates unique constraint on order_id. Reports for today are stale.",
+      "caller_id": "Abel Tuter",
+      "category": "Software",
+      "impact": "2 - Medium",
+      "urgency": "2 - Medium",
+      "priority": "3 - Moderate",
+      "state": "Resolved",
+      "close_code": "Resolved – Permanent Fix Applied",
+      "close_notes": "Root cause fixed by CHG0030002 (dedup step added before the nightly load MERGE). See PRB0040001.",
+      "opened_at": "2026-10-16 09:04:07",
+      "resolved_at": "2026-10-16 09:24:22"
+    },
+    {
+      "number": "INC0010003",
+      "short_description": "Nightly data load failed - duplicate key error",
+      "description": "Wed Oct 14: Nightly load into the reporting warehouse failed at the MERGE step. Error: duplicate key value violates unique constraint on order_id. Reports for today are stale.",
+      "caller_id": "Abel Tuter",
+      "category": "Software",
+      "impact": "2 - Medium",
+      "urgency": "2 - Medium",
+      "priority": "3 - Moderate",
+      "state": "Resolved",
+      "close_code": "Resolved – Permanent Fix Applied",
+      "close_notes": "Root cause fixed by CHG0030002 (dedup step added before the nightly load MERGE). See PRB0040001.",
+      "opened_at": "2026-10-16 09:04:21",
+      "resolved_at": "2026-10-16 09:24:26"
+    }
+  ],
+  "problem": {
+    "number": "PRB0040001",
+    "short_description": "Recurring nightly load failure",
+    "description": "Three incidents in three nights (INC0010001-INC0010003) with the same duplicate key error during the nightly load into the reporting warehouse.",
+    "first_reported_by_task": "INC0010001",
+    "category": "Software",
+    "impact": "2 - Medium",
+    "urgency": "2 - Medium",
+    "priority": "3 - Moderate",
+    "assigned_to": "System Administrator",
+    "known_error": true,
+    "cause_notes": "The source system re-sends late-arriving orders, so the same order_id appears twice in one batch. The load has no dedup step, so the MERGE hits the unique constraint on order_id.",
+    "workaround": "Delete the duplicate rows from the staging table and rerun the nightly load manually.",
+    "fix_notes": "Permanent fix delivered by CHG0030002: ROW_NUMBER() dedup on order_id added to the staging step before the MERGE.",
+    "rfc": "CHG0030002",
+    "resolution_code": "Fix Applied",
+    "state": "Closed",
+    "opened_at": "2026-10-16 09:04:26",
+    "resolved_at": "2026-10-16 09:21:41",
+    "closed_at": "2026-10-16 09:24:48"
+  },
+  "change": {
+    "number": "CHG0030002",
+    "type": "Normal",
+    "short_description": "Add dedup check before load",
+    "description": "Permanent fix for PRB0040001 (recurring nightly load failure).",
+    "assignment_group": "Database",
+    "justification": "Permanent fix for the recurring nightly load failure (PRB0040001). Stops duplicate key errors and stale morning reports.",
+    "implementation_plan": "Add a ROW_NUMBER() dedup on order_id in the staging step, keeping the latest record by load timestamp, before the MERGE into the warehouse.",
+    "backout_plan": "Revert to the previous version of the load script.",
+    "test_plan": "Run the load against a staging batch with known duplicate order_ids and confirm it completes with no constraint errors.",
+    "risk_impact_analysis": "Low risk: change is limited to the staging step of one nightly job.",
+    "approval": "Approved",
+    "state": "Closed",
+    "close_code": "Successful",
+    "close_notes": "Dedup step deployed to the nightly load. Test batch with duplicate order_ids loaded with no constraint errors; first production run completed successfully.",
+    "closed_at": "2026-10-16 09:19:58"
+  },
+  "change_approvals": [
+    {
+      "approver": "Beth Anglin",
+      "state": "No Longer Required",
+      "created": "2026-10-16 09:11:28"
+    },
+    {
+      "approver": "Fred Luddy",
+      "state": "Approved",
+      "created": "2026-10-16 09:11:31"
+    },
+    {
+      "approver": "ITIL User",
+      "state": "Approved",
+      "created": "2026-10-16 09:11:34"
+    },
+    {
+      "approver": "Howard Johnson",
+      "state": "Approved",
+      "created": "2026-10-16 09:15:31"
+    },
+    {
+      "approver": "Luke Wilson",
+      "state": "Approved",
+      "created": "2026-10-16 09:15:33"
+    },
+    {
+      "approver": "Ron Kettering",
+      "state": "Approved",
+      "created": "2026-10-16 09:15:35"
+    },
+    {
+      "approver": "Howard Johnson",
+      "state": "Approved",
+      "created": "2026-10-16 09:16:35"
+    },
+    {
+      "approver": "Luke Wilson",
+      "state": "Approved",
+      "created": "2026-10-16 09:16:36"
+    },
+    {
+      "approver": "Ron Kettering",
+      "state": "Approved",
+      "created": "2026-10-16 09:16:37"
+    },
+    {
+      "approver": "Christen Mitchell",
+      "state": "Approved",
+      "created": "2026-10-16 09:16:38"
+    },
+    {
+      "approver": "cab approver",
+      "state": "Approved",
+      "created": "2026-10-16 09:16:39"
+    },
+    {
+      "approver": "Bernard Laboy",
+      "state": "Approved",
+      "created": "2026-10-16 09:16:41"
+    }
+  ],
+  "dashboard": {
+    "name": "Ops Overview",
+    "workspace": "Platform Analytics",
+    "visualization": "Incidents by Category (vertical bar, Incident table, COUNT grouped by Category)"
+  }
+}
