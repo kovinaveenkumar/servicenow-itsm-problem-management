@@ -51,7 +51,6 @@ flowchart LR
 ## Proof
 
 - [`data/records.json`](data/records.json): every record exported through the ServiceNow REST Table API (incidents, problem, change, approvals, dashboard definition).
-- [`docs/interview_walkthrough.md`](docs/interview_walkthrough.md): how I explain the case in 60 seconds, plus the questions I prepared for.
 - [`assets/`](assets): screenshots of the dashboard, problem, change and incidents.
 
 ## Skills shown
